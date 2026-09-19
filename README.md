@@ -155,9 +155,6 @@ key is a destroy and recreate unless you `terraform state mv` first. That is doc
 - Input validation on the environment name, the domain, partition counts, topic names and
   the role name, so a typo fails at plan time.
 - Partial S3 backend configuration with no credentials in the Terraform files.
-- CI that checks formatting, validates the root module, the child module and both
-  examples, runs TFLint and a Trivy IaC scan, and fails the build if state, a plan file, a
-  `tfvars` file or a credential-shaped string is ever committed.
 - Two runnable examples: the module on its own, and the full root configuration.
 
 ## Prerequisites
@@ -312,7 +309,6 @@ terraform-confluent-cloud/
 ├── outputs.tf                      IDs, endpoints, topic names, generated credentials
 ├── terraform.tfvars.example
 ├── backend.hcl.example
-├── .github/workflows/ci.yml        fmt, validate, TFLint, Trivy, committed-secret guard
 ├── modules/
 │   └── topics/
 │       ├── README.md               Inputs, outputs and the sharp edges
@@ -352,7 +348,7 @@ confusing first run. Switch to it once the naming is settled.
 
 ## Testing
 
-There is no unit test framework here. What CI actually checks:
+There is no unit test framework here. What is worth running before an apply:
 
 ```bash
 terraform fmt -check -recursive -diff
@@ -368,7 +364,7 @@ trivy config .
 
 `validate` catches type errors, unknown arguments and bad references without contacting
 Confluent Cloud. It does not catch a plan that would destroy a topic: only reading the
-plan does that, which is why CI plans but never applies.
+plan does that.
 
 For real verification of behaviour, `terraform plan` against a throwaway Confluent Cloud
 environment is the only honest test, since the provider talks to a hosted API with no
@@ -395,8 +391,9 @@ local emulator.
 - **Topic inventory lives in `locals.tf`, not in a variable.** That suits a pipeline whose
   topics are the same in every environment. Promote it to a variable if your environments
   differ.
-- **CI plans but never applies.** Auto-applying on a branch push is how topics get deleted
-  by accident. Apply should be a manual, environment-gated job.
+- **No pipeline is included, deliberately.** If you add one, plan on every change and keep
+  apply a manual, environment-gated step. Auto-applying on a branch push is how topics get
+  deleted by accident.
 
 ## License
 
