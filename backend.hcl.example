@@ -1,0 +1,19 @@
+# Copy to backend.hcl and edit, then:
+#
+#   terraform init -backend-config=backend.hcl
+#
+# backend.hcl is gitignored. There are deliberately no access_key or secret_key
+# entries: the S3 backend picks credentials up from the environment, from a
+# shared config profile, or from the role the CI job assumes. Putting static AWS
+# keys in a backend configuration means they also land in
+# .terraform/terraform.tfstate on every machine that runs init.
+
+bucket = "my-terraform-state"
+key    = "confluent-cloud/dev/terraform.tfstate"
+region = "eu-west-1"
+
+encrypt = true
+
+# Optional: state locking through DynamoDB. Native S3 locking is available from
+# Terraform 1.10 with use_lockfile = true.
+# dynamodb_table = "terraform-locks"

@@ -1,0 +1,26 @@
+# Copy to terraform.tfvars and edit. terraform.tfvars is gitignored.
+#
+# Do NOT put the two credentials below in this file for anything other than local
+# experimentation. Prefer environment variables, which Terraform picks up
+# automatically and which do not end up in a file you might commit:
+#
+#   export TF_VAR_confluent_cloud_api_key="..."
+#   export TF_VAR_confluent_cloud_api_secret="..."
+
+environment  = "dev"
+cluster_name = "shared-dev-cluster"
+domain       = "sales"
+
+# Bound to the Terraform-managed service account. DeveloperManage scoped to a
+# topic prefix is tighter; see the README.
+cluster_role = "CloudClusterAdmin"
+
+default_partitions_count = 1
+min_insync_replicas      = "2"
+
+cdc_retention_ms   = "1209600000" # 14 days
+event_retention_ms = "2592000000" # 30 days
+max_message_bytes  = "2097164"
+
+# confluent_cloud_api_key    = "..."
+# confluent_cloud_api_secret = "..."

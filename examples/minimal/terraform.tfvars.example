@@ -1,0 +1,10 @@
+# Copy to terraform.tfvars and edit. Prefer TF_VAR_* environment variables for
+# the four credentials below.
+
+kafka_cluster_id      = "lkc-000000"
+cluster_rest_endpoint = "https://pkc-00000.eu-west-1.aws.confluent.cloud:443"
+
+# confluent_cloud_api_key    = "..."
+# confluent_cloud_api_secret = "..."
+# kafka_api_key              = "..."
+# kafka_api_secret           = "..."

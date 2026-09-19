@@ -1,0 +1,40 @@
+# Terraform state. Never commit it: it holds the Kafka API secret in plain text.
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Provider binaries and module cache
+.terraform/
+.terraform.lock.hcl
+
+# Saved plans. A plan file contains every value in the diff, sensitive ones included.
+*.tfplan
+tfplan
+plan.out
+
+# Variable files with real values
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Backend configuration with real values
+backend.hcl
+!backend.hcl.example
+
+# Crash logs and override files
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Secrets
+.env
+*.pem
+*.key
+
+# OS and editor noise
+.DS_Store
+.idea/
+.vscode/
